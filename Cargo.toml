@@ -1,0 +1,12 @@
+[package]
+name = "fasta_multi_grep"
+version = "0.1.0"
+authors = ["Michael Milton <michael.r.milton@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+bio = "0.34.0"
+clap = "2.33.3"
+structopt = "0.3.21"
