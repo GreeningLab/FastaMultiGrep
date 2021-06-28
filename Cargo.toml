@@ -9,4 +9,5 @@ edition = "2018"
 [dependencies]
 bio = "0.34.0"
 clap = "2.33.3"
+regex = "1.5.4"
 structopt = "0.3.21"
