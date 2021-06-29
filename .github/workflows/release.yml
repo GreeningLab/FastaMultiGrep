@@ -10,13 +10,12 @@ jobs:
       - name: Create Release
         id: create_release
         uses: ncipollo/release-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag: ${{ github.ref }}
 #          name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           echo "${{toJson(steps)}}"
     outputs:
