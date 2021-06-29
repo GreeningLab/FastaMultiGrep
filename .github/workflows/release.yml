@@ -17,6 +17,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+      - run: |
+          echo "${{toJson(steps)}}"
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
 
