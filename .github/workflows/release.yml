@@ -45,6 +45,9 @@ jobs:
             asset_name: "fasta_multi_grep-macos"
 
     steps:
+      - run: |
+          "echo ${{toJson(needs)}}"
+
       - uses: actions/checkout@v1
 
       - uses: actions-rs/toolchain@v1
@@ -64,6 +67,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          upload_url: ${{needs.create_release.outputs.upload_url}}
           asset_path: ${{matrix.artifact_name}}
           asset_name: ${{matrix.asset_name}}
