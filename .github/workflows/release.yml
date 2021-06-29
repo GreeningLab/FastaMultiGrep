@@ -9,13 +9,13 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v0.1.5
+        uses: ncipollo/release-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
+          tag: ${{ github.ref }}
+#          name: Release ${{ github.ref }}
+          draft: true
           prerelease: false
       - run: |
           echo "${{toJson(steps)}}"
