@@ -17,6 +17,8 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
 
   upload_assets:
     name: Publish for ${{ matrix.os }}
