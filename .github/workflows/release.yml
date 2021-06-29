@@ -3,6 +3,9 @@ on:
     tags:
       - '*'
 
+env:
+  BINARY: fasta_multi_grep
+
 jobs:
   publish:
     name: Publish for ${{ matrix.os }}
@@ -18,16 +21,16 @@ jobs:
         include:
           - name: linux
             os: ubuntu-latest
-            artifact_name: target/release/<name>
-            asset_name: <name>-linux
+            artifact_name: "target/release/${{env.BINARY}}"
+            asset_name: "${{ env.BINARY}}-linux"
           - name: windows
             os: windows-latest
-            artifact_name: target/release/<name>.exe
-            asset_name: <name>-windows
+            artifact_name: "target/release/${{env.BINARY}}.exe"
+            asset_name: "${{ env.BINARY}}-window"
           - name: macos
             os: macos-latest
-            artifact_name: target/release/<name>
-            asset_name: <name>-macos
+            artifact_name: "target/release/${{env.BINARY}}"
+            asset_name: "${{ env.BINARY}}-macos"
 
     steps:
       - uses: actions/checkout@v1
