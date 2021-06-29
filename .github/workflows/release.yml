@@ -4,8 +4,23 @@ on:
       - '*'
 
 jobs:
-  publish:
+  create_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
+  upload_assets:
     name: Publish for ${{ matrix.os }}
+    needs: create_release
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -43,8 +58,12 @@ jobs:
       - name: Build
         run: cargo build --release --locked
 
-      - name: Upload binaries to release
-        uses: actions/upload-artifact@v2
+      - name: Upload assets
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ${{ matrix.asset_name }}
-          path: ${{ matrix.artifact_name }}
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{matrix.artifact_name}}
+          asset_name: ${{matrix.asset_name}}
