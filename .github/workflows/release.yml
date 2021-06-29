@@ -3,11 +3,8 @@ on:
     tags:
       - '*'
 
-
 jobs:
   publish:
-    env:
-      BINARY: fasta_multi_grep
     name: Publish for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -21,16 +18,16 @@ jobs:
         include:
           - name: linux
             os: ubuntu-latest
-            artifact_name: "target/release/${{env.BINARY}}"
-            asset_name: "${{env.BINARY}}-linux"
+            artifact_name: "target/release/fasta_multi_grep"
+            asset_name: "fasta_multi_grep-linux"
           - name: windows
             os: windows-latest
-            artifact_name: "target/release/${{env.BINARY}}.exe"
-            asset_name: "${{ env.BINARY}}-window"
+            artifact_name: "target/release/fasta_multi_grep.exe"
+            asset_name: "fasta_multi_grep-window"
           - name: macos
             os: macos-latest
-            artifact_name: "target/release/${{env.BINARY}}"
-            asset_name: "${{ env.BINARY}}-macos"
+            artifact_name: "target/release/fasta_multi_grep"
+            asset_name: "fasta_multi_grep-macos"
 
     steps:
       - uses: actions/checkout@v1
