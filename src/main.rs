@@ -1,9 +1,9 @@
 use bio::io::fasta;
-use clap::{arg_enum};
+use clap::arg_enum;
+use regex::Regex;
+use std::io;
 use structopt;
 use structopt::StructOpt;
-use std::io;
-use regex::Regex;
 // use std::str::FromStr;
 use std::str;
 
@@ -28,7 +28,6 @@ arg_enum! {
 //     }
 // }
 
-
 // impl From<Alphabet> for Regex {
 //     fn from(alpha: Alphabet) -> Self {
 //         match alpha {
@@ -38,13 +37,20 @@ arg_enum! {
 //     }
 // }
 #[derive(Debug, StructOpt)]
-#[structopt(version = "0.1.0", author = "Michael R Milton <michael.r.milton@gmail.com>")]
+#[structopt(
+    version = "0.1.0",
+    author = "Michael R Milton <michael.r.milton@gmail.com>"
+)]
+/// Searches each sequence in a fasta file for a combination of regular expressions.
+///
+/// The fasta file is read in stdin, so you will have to pipe it into this tool.
+/// Output is produced in stdout as a fasta file which only contains matches.
+/// Therefore you will likely want to pipe the output to a file
+/// Note that tool assumes you want the intersection of pattern hits, ie hits that include pattern A AND pattern B AND pattern C, in any order.
+/// If you want the union of hits, or you want a specific order, use regex features to achieve this
 struct Opts {
-    /// Sets a custom config file. Could have been an Option<T> with no default too
-    // #[structopt(short, long, default_value = "protein", possible_values = & Alphabet::variants(), case_insensitive = true)]
-    // alphabet: Alphabet,
-    // #[structopt()]
-    patterns: Vec<Regex>
+    /// A list of regular expressions, ideally enclosed in quotation marks. The supported syntax is documented here: https://docs.rs/regex/latest/regex/#syntax
+    patterns: Vec<Regex>,
 }
 
 fn main() {
@@ -53,9 +59,12 @@ fn main() {
     let mut writer = fasta::Writer::new(io::stdout());
     for result in reader.records() {
         let record = result.expect("Error during fasta record parsing");
-        if opt.patterns.iter().all(|pat| pat.is_match(str::from_utf8(record.seq()).unwrap())){
+        if opt
+            .patterns
+            .iter()
+            .all(|pat| pat.is_match(str::from_utf8(record.seq()).unwrap()))
+        {
             &writer.write_record(&record);
         }
     }
-    // println!("{:?}", opt.alphabet);
 }
