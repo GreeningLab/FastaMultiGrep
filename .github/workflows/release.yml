@@ -3,11 +3,11 @@ on:
     tags:
       - '*'
 
-env:
-  BINARY: fasta_multi_grep
 
 jobs:
   publish:
+    env:
+      BINARY: fasta_multi_grep
     name: Publish for ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -22,7 +22,7 @@ jobs:
           - name: linux
             os: ubuntu-latest
             artifact_name: "target/release/${{env.BINARY}}"
-            asset_name: "${{ env.BINARY}}-linux"
+            asset_name: "${{env.BINARY}}-linux"
           - name: windows
             os: windows-latest
             artifact_name: "target/release/${{env.BINARY}}.exe"
