@@ -3,6 +3,10 @@ on:
     tags:
       - '*'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   create_release:
     runs-on: ubuntu-latest
