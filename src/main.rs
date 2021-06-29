@@ -2,7 +2,6 @@ use std::io;
 use std::str;
 
 use bio::io::fasta;
-use clap::arg_enum;
 use regex::Regex;
 use structopt;
 use structopt::StructOpt;
