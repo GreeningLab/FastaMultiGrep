@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - run: |
-          "echo ${{toJson(needs)}}"
+          echo "${{toJson(needs)}}"
 
       - uses: actions/checkout@v1
 
@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload assets
         id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+        uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
