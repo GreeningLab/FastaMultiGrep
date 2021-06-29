@@ -4,7 +4,7 @@ Find multiple motifs in a fasta file
 
 ## Installation
 
-* Download an applicable exe from the [releases page](https://github.com/GreeningLab/FastaMultiGrep/release)
+* Download an applicable exe from the [releases page](https://github.com/GreeningLab/FastaMultiGrep/releases)
 * Or, if you want the latest version, or you have an architecture that isn't included in the releases, you can run this
   tool locally:
     * Make sure `rustc` is installed
