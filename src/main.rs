@@ -1,41 +1,12 @@
+use std::io;
+use std::str;
+
 use bio::io::fasta;
 use clap::arg_enum;
 use regex::Regex;
-use std::io;
 use structopt;
 use structopt::StructOpt;
-// use std::str::FromStr;
-use std::str;
 
-arg_enum! {
-    #[derive(PartialEq, Debug)]
-    enum Alphabet {
-        Protein,
-        NucleicAcid
-    }
-}
-
-// struct MultiPattern {
-//     pattern: Regex,
-//     count: u32
-// }
-//
-// impl FromStr for MultiPattern {
-//     type Err = ();
-//
-//     fn from_str(s: &str) -> Result<Self, Self::Err> {
-//
-//     }
-// }
-
-// impl From<Alphabet> for Regex {
-//     fn from(alpha: Alphabet) -> Self {
-//         match alpha {
-//             Alphabet::NucleicAcid => Regex(),
-//             Alphabet::Protein => Regex()
-//         }
-//     }
-// }
 #[derive(Debug, StructOpt)]
 #[structopt(
     version = "0.1.0",
