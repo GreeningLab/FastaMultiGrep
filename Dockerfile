@@ -3,4 +3,3 @@ LABEL org.opencontainers.image.source=https://github.com/GreeningLab/FastaMultiG
 WORKDIR /usr/src/myapp
 COPY . .
 RUN cargo install --path .
-ENTRYPOINT ["fasta_multi_grep"]
