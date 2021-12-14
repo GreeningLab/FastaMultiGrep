@@ -1,5 +1,4 @@
 use std::io;
-use std::slice::Split;
 use std::str;
 use std::str::FromStr;
 
@@ -12,6 +11,7 @@ use itertools::Itertools;
 
 use anyhow::{Result, Error, anyhow};
 
+#[derive(Debug)]
 struct NamedQuery {
     name: String,
     patterns: Vec<Regex>
@@ -20,9 +20,9 @@ struct NamedQuery {
 impl NamedQuery {
     fn vec_from(vec: Vec<NamedRegex>) -> Vec<Self>{
         vec.into_iter().sorted_by_key(|it| it.name.clone()).group_by(|it| it.name.clone()).into_iter().map(|(key, items)| {
-            NamedQuery{
+            NamedQuery {
                 name: key.clone(),
-                patterns: items.into_iter().map(|nr| nr.pattern).collect()
+                patterns: items.into_iter().map(|nr| nr.pattern).collect(),
             }
         }).collect()
     }
@@ -96,22 +96,23 @@ fn main() {
                     .iter()
                     .all(|pat| pat.is_match(str::from_utf8(record.seq()).unwrap()))
                 {
-                    &writer.write_record(&record);
+                    writer.write_record(&record).unwrap();
                 }
             }
         }
         Opts::Hits{patterns} => {
-            let patterns = NamedQuery::vec_from(patterns);
+            let queries = NamedQuery::vec_from(patterns);
             let mut wtr = csv::WriterBuilder::new().from_writer(io::stdout());
             wtr.write_record(&["seq", "pattern", "match"]).unwrap();
 
             for result in reader.records() {
                 let record = result.expect("Error during fasta record parsing");
-                for pattern in &patterns {
-                    let mtch =  (&pattern.patterns)
+                let seq = str::from_utf8(record.seq()).unwrap();
+                for query in &queries {
+                    let mtch =  (&query.patterns)
                         .into_iter()
-                        .all(|pat| pat.is_match(str::from_utf8(record.seq()).unwrap()));
-                    wtr.write_record(&[record.id(), &pattern.name, &mtch.to_string()]).unwrap();
+                        .all(|pat| pat.is_match(seq) );
+                    wtr.write_record(&[record.id(), &query.name, &mtch.to_string()]).unwrap();
                 }
             }
         }
